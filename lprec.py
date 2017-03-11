@@ -38,7 +38,6 @@ class MainApplication:
 
 
 #		self.e[0].insert(0,'/home/viknik/s35_bmpzo_s1top__1_.h5');
-#		self.e[8].insert(0,'/home/viknik/rec/s35_bmpzo_s1top__1_rec');
 		self.cb0=ttk.Combobox(master,values=['False','True']);self.cb0.grid(row=4,column=1);self.cb0.current(0);		
 		self.cb=ttk.Combobox(master,values=['None','ramp','shepp-logan','hann','hamming']);self.cb.grid(row=5,column=1);self.cb.current(0);		
 
