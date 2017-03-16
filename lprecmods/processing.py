@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 
 class processing:
 	def __init__(self,N,Nproj,filter_type,pad,fname):
-		self.Nslices=4
+		self.Nslices=8
 		self.clpthandle=lpTransform.lpTransform(N,Nproj,self.Nslices,filter_type,pad)
-		self.clpthandle.precompute()
-		self.clpthandle.initcmem()
+		self.clpthandle.precompute_adj()
+		self.clpthandle.initcmem_adj()
 
 		self.fphandle=fileParser.fileParser(fname)
 	
