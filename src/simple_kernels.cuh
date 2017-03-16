@@ -99,12 +99,14 @@ __global__ void mcopy(float* df,float* dfit,int N1,int N2)
 	df[ty*N1+tx]=dfit[ty*N1+tx];
 }
 
-__global__ void padker(float* R, int lb, int rb, int N1, int N2)
+__global__ void padker(float* R, int lb, int rb, int N1, int N2, int N3)
 {
         uint tx = blockIdx.x*blockDim.x + threadIdx.x;
         uint ty = blockIdx.y*blockDim.y + threadIdx.y;
-        if (tx>=N1||ty>=N2) return;
-        if (ty<lb) R[ty*N1+tx]=R[lb*N1+tx];
-        if (ty>rb) R[ty*N1+tx]=R[rb*N1+tx];
+        uint tz = blockIdx.z*blockDim.z + threadIdx.z;
+
+        if (tx>=N1||ty>=N2||tz>=N3) return;
+        if (ty<lb) R[tz*N1*N2+ty*N1+tx]=R[tz*N1*N2+lb*N1+tx];
+        if (ty>rb) R[tz*N1*N2+ty*N1+tx]=R[tz*N1*N2+rb*N1+tx];
 }
 
