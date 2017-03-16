@@ -210,9 +210,9 @@ void lpRgpu::execAdjMany(float* f, int Nslices1_, int N2_, int N1_, float* R, in
 //padding
 void lpRgpu::padding(int Ns_, int shift)
 {
-	uint GS21=(uint)ceil(Nproj/(float)MBS21);uint GS22=(uint)ceil(Ns/(float)MBS22);
-        dim3 dimBlock(MBS21,MBS22);dim3 dimGrid(GS21,GS22);
-        padker<<<dimGrid,dimBlock>>>(dR,Ns/2-Ns_/2+shift,Ns/2+Ns_/2+shift-1,Nproj,Ns);
+	uint GS31=(uint)ceil(Nproj/(float)MBS21);uint GS32=(uint)ceil(Ns/(float)MBS22);uint GS33=(uint)ceil(Nslices/(float)MBS33);
+        dim3 dimBlock(MBS31,MBS32,MBS33);dim3 dimGrid(GS31,GS32,GS33);
+        padker<<<dimGrid,dimBlock>>>(dR,Ns/2-Ns_/2+shift,Ns/2+Ns_/2+shift-1,Nproj,Ns,Nslices);
 }
 
 //prefilter to compensate amplitudes in cubic interpolation

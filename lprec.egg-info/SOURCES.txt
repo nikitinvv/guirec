@@ -75,7 +75,11 @@ src/math_operators.cuh
 src/numpy.i
 src/params.cu
 src/simple_kernels.cuh
+tests/Padj
+tests/Pfwd
+tests/Pgl
 tests/test_adj.py
+tests/test_adj_many.py
 tests/test_big.py
 tests/test_foam.py
 tests/test_imp.py

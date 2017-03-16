@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import sys
-sys.path.append("../build/lib.linux-x86_64-2.7/")
+sys.path.append("../build/lib.linux-x86_64-2.7/lprecmods/")
 import lprecmods.lpTransform as lpTransform
 import matplotlib.pyplot as plt
 from numpy import *
@@ -30,3 +30,5 @@ clpthandle.initcmem()
 tic()
 frec=clpthandle.adj(Ra,cor);
 toc()
+print linalg.norm(frec[0,:,:]-frec[1,:,:])
+
