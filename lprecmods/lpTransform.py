@@ -23,6 +23,18 @@ class lpTransform:
 		self.clphandle.initFwd('Pfwd');
 		self.clphandle.initAdj('Padj');	
 
+	#only reconstruction
+	def precompute_adj(self,Ntheta=0,Nrho=0):		
+		#precompute parameters for the lp method
+		Pgl=initsgl.create_gl(self.Npad,self.Nproj,self.Nspad,self.Nslices,'Pgl',Ntheta,Nrho);
+		initsadj.create_adj(Pgl,'Padj',self.filter_type);
+
+	def initcmem_adj(self):
+		#init memory in C, read data from files
+		self.clphandle=lpRgpu.lpRgpu('Pgl');	
+		self.clphandle.initAdj('Padj');	
+
+
 	def fwd(self,f):
 		R=zeros([f.shape[0],self.Ns,self.Nproj],dtype='float32');
 		self.clphandle.execFwdMany(R,f);
