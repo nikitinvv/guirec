@@ -56,10 +56,10 @@ def getparameters(beta,dtheta,ds,N,Nproj,Ns,Ntheta,Nrho):
 	g=osg(aR,beta/2);#wrapping
 	if(Ntheta==0):
 		#recommendation
-		Ntheta=int32(ceil(2/3.0*max(Nproj,N)));
+		Ntheta=N;
 	if (Nrho==0):
 		#recommendation
-		Nrho=2*Ns;
+		Nrho=2*N;
 
 	if mod(Ntheta,2)!=0: 
 		Ntheta=Ntheta+1;
