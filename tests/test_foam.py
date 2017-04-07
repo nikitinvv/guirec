@@ -2,6 +2,8 @@
 import sys
 sys.path.append("../build/lib.linux-x86_64-2.7/")
 import lprecmods.lpTransform as lpTransform
+import lprecmods.mresample as mresample
+
 from lprecmods.timing import *
 import matplotlib.pyplot as plt
 from numpy import *
@@ -21,8 +23,13 @@ Ra=float32(zeros([Nslices,N,Nproj]));
 for k in range(0,Nslices):
 	Ra[k,:,:]=R[0,:,:];
 
-clpthandle=lpTransform.lpTransform(N,Nproj,Nslices,filter_type,pad)
-clpthandle.precompute(1024,3072)#choose Ntheta,Nrho
+p=4;q=1;
+tic()
+Ra=mresample.mresample(Ra,p,q,q/float32(p));
+print Ra.shape
+toc()
+clpthandle=lpTransform.lpTransform(N,Nproj*p/q,Nslices,filter_type,pad)
+clpthandle.precompute()
 clpthandle.initcmem()
 
 for k in range(0,3):
@@ -30,9 +37,9 @@ for k in range(0,3):
 	frec=clpthandle.adj(Ra,cor);
 	toc()
 
-#fid=open('frec5','wb');
-#frec[0,:,:].tofile(fid);
-#fid.close();
+fid=open('frec2','wb');
+frec[1,:,:].tofile(fid);
+fid.close();
 
 plt.subplot(1,2,1)
 plt.imshow(R[0,:,:])
