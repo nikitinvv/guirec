@@ -19,7 +19,7 @@ def find_in_path(name, path):
 def locate_cuda():
     """Locate the CUDA environment on the system
 
-    Returns a dict with keys 'home', 'nvcc', 'include', and 'lib64'
+    Returns a dict with keys 'home', 'nvcc', 'include', and 'lib'
     and values giving the absolute path to each directory.
 
     Starts by looking for the CUDAHOME env variable. If not found, everything
@@ -30,6 +30,7 @@ def locate_cuda():
     if 'CUDAHOME' in os.environ:
         home = os.environ['CUDAHOME']
         nvcc = pjoin(home, 'bin', 'nvcc')
+        libdir = pjoin(home, 'lib64')
     else:
         # otherwise, search the PATH for NVCC
         nvcc = find_in_path('nvcc', os.environ['PATH'])
@@ -37,17 +38,20 @@ def locate_cuda():
             raise EnvironmentError('The nvcc binary could not be '
                 'located in your $PATH. Either add it to your path, or set $CUDAHOME')
         home = os.path.dirname(os.path.dirname(nvcc))
+        proc = subprocess.Popen("dirname $(ldconfig -p | grep libcudart.so | awk '{print $4}' | head -n 1)", shell=True, stdout=subprocess.PIPE)
+        out, err = proc.communicate()
+        libdir = out.rstrip()
 
     cudaconfig = {'home':home, 'nvcc':nvcc,
                   'include': pjoin(home, 'include'),
-                  'lib64': pjoin(home, 'lib64')}
+                  'lib': libdir}
     for k, v in cudaconfig.iteritems():
         if not os.path.exists(v):
             raise EnvironmentError('The CUDA %s path could not be located in %s' % (k, v))
 
     return cudaconfig
-CUDA = locate_cuda()
 
+CUDA = locate_cuda()
 
 # Obtain the numpy include directory.  This logic works across numpy versions.
 try:
@@ -58,9 +62,9 @@ except AttributeError:
 
 ext = Extension('_lpRgpu', 
                 sources=['src/callerr.cu', 'src/gridStorage.cu', 'src/lpRgpu.cu', 'src/params.cu','src/lpRgpu_wrap.cpp'],
-                library_dirs=[CUDA['lib64']],
+                library_dirs=[CUDA['lib']],
                 libraries=['cudart','cufft'],
-                runtime_library_dirs=[CUDA['lib64']],
+                runtime_library_dirs=[CUDA['lib']],
                 # this syntax is specific to this build system
                 # we're only going to use certain compiler args with nvcc and not with gcc
                 # the implementation of this trick is in customize_compiler() below
