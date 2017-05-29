@@ -23,12 +23,7 @@ Ra=float32(zeros([Nslices,N,Nproj]));
 for k in range(0,Nslices):
 	Ra[k,:,:]=R[0,:,:];
 
-p=4;q=1;
-tic()
-Ra=mresample.mresample(Ra,p,q,q/float32(p));
-print Ra.shape
-toc()
-clpthandle=lpTransform.lpTransform(N,Nproj*p/q,Nslices,filter_type,pad)
+clpthandle=lpTransform.lpTransform(N,Nproj,Nslices,filter_type,pad)
 clpthandle.precompute()
 clpthandle.initcmem()
 

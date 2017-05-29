@@ -20,17 +20,12 @@ f=float32(reshape(struct.unpack(N*N*'f',fid.read(N*N*4)),[Nslices,N,N]))
 fid = open('./data/Rbub', 'rb')
 R=float32(reshape(struct.unpack(Nproj*N*'f',fid.read(Nproj*N*4)),[Nslices,N,Nproj]))
 
-RR=zeros([Nslices,N,3*N/2],dtype='float32')
+clpthandle=lpTransform.lpTransform(N,Nproj,Nslices,filter_type,pad)
 
-p=6
-q=1
-RR=mresample.mresample(R,p,q,q/float32(p))
-
-clpthandle=lpTransform.lpTransform(N,p*Nproj/q,Nslices,filter_type,pad)
 clpthandle.precompute()
 clpthandle.initcmem()
 
-frec=clpthandle.adj(RR,cor);
+frec=clpthandle.adj(R,cor);
 if (pad):
 	 frec=frec*2/3;
 

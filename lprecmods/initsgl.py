@@ -60,7 +60,6 @@ def getparameters(beta,dtheta,ds,N,Nproj,Ns,Ntheta,Nrho):
 	if (Nrho==0):
 		#recommendation
 		Nrho=2*N;
-
 	if mod(Ntheta,2)!=0: 
 		Ntheta=Ntheta+1;
 	dtheta=(2*beta)/Ntheta;
