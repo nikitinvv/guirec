@@ -42,7 +42,7 @@ class MainApplication:
 		self.cb=ttk.Combobox(master,values=['None','ramp','shepp-logan','hann','hamming']);self.cb.grid(row=5,column=1);self.cb.current(0);		
 
 
-		Tkinter.Button(master, text='Read hd5', command=self.button_readh5).grid(row=0, column=2,  pady=0)
+		Tkinter.Button(master, text='Read h5', command=self.button_readh5).grid(row=0, column=2,  pady=0)
 		Tkinter.Button(master, text='LP plan', command=self.button_create).grid(row=5, column=2, pady=0)
 		Tkinter.Button(master, text='Rec', command=self.button_rec).grid(row=10, column=2, pady=0)
 		Tkinter.Button(master, text='Set dir', command=self.button_setrecdir).grid(row=6, column=2, pady=0)
